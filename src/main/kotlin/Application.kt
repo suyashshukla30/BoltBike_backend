@@ -1,5 +1,6 @@
 package com.bike
 
+import com.bike.infrastructure.Firebase.initFirerBaseAdmin
 import com.bike.infrastructure.database.initDatabase
 import com.bike.plugins.configureHTTP
 import com.bike.plugins.configureMonitoring
@@ -13,10 +14,11 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-    configureSerialization()  // <- This must be here
+    configureSerialization()
     configureMonitoring()
     configureHTTP()
     configureRouting()
     initDatabase()
+    initFirerBaseAdmin()
 }
 
