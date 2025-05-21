@@ -59,10 +59,10 @@ fun Route.userRoutes() {
 
         try {
             UserDao.insertUser(user)
-            call.respond(HttpStatusCode.OK, "✅ User $uid registered successfully!")
+            call.respond(HttpStatusCode.OK, mapOf("message" to "User registered successfully!"))
         } catch (e: Exception) {
             e.printStackTrace()
-            call.respond(HttpStatusCode.InternalServerError, "❌ Failed to save user: ${e.message}")
+            call.respond(HttpStatusCode.InternalServerError, mapOf("message" to "User failed "))
         }
     }
 }
