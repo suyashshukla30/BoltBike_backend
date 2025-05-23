@@ -1,6 +1,6 @@
 ktor:
   deployment:
-    port: 8080
+    port: ${PORT:8080}
     host: "0.0.0.0"
 
   application:
@@ -8,7 +8,7 @@ ktor:
       - com.bike.ApplicationKt.module
 
 database:
-  url: "jdbc:postgresql://localhost:5432/rideon_db"
+  url: ${DB_URL}
   driver: "org.postgresql.Driver"
-  user: "postgres"
-  password: "Sam20731"
+  user: ${DB_USER}
+  password: ${DB_PASSWORD}
