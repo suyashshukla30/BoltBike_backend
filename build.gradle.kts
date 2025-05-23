@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ktor)
     kotlin("plugin.serialization") version "2.1.10"
+
+
+    id("com.gradleup.shadow") version "8.3.6"
 }
 
 group = "com.bike"
@@ -40,7 +43,6 @@ dependencies {
     implementation("org.postgresql:postgresql:42.7.2")
     implementation("com.zaxxer:HikariCP:5.1.0")
 }
-
 tasks.register<Jar>("fatJar") {
     group = "build"
     archiveBaseName.set("rideon-app")
@@ -52,8 +54,15 @@ tasks.register<Jar>("fatJar") {
         attributes["Main-Class"] = "io.ktor.server.netty.EngineMain"
     }
     from(sourceSets.main.get().output)
+
     dependsOn(configurations.runtimeClasspath)
+
     from({
-        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map {
+            zipTree(it)
+        }
     })
+
+    exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
 }
+
