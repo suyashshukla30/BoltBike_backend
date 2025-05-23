@@ -15,12 +15,15 @@ fun Application.initDatabase(
     user: String? = null,
     password: String? = null
 ) {
-    val config = environment.config.config("database")
-
-    val dbUrl = url ?: config.property("url").getString()
-    val dbDriver = driver ?: config.property("driver").getString()
-    val dbUser = user ?: config.property("user").getString()
-    val dbPassword = password ?: config.property("password").getString()
+    // Only try to load from config if *all* args are null
+    val dbUrl = url ?: environment.config.propertyOrNull("database.url")?.getString()
+    ?: throw IllegalArgumentException("Database url is missing")
+    val dbDriver = driver ?: environment.config.propertyOrNull("database.driver")?.getString()
+    ?: "org.postgresql.Driver"  // default driver if you want
+    val dbUser = user ?: environment.config.propertyOrNull("database.user")?.getString()
+    ?: throw IllegalArgumentException("Database user is missing")
+    val dbPassword = password ?: environment.config.propertyOrNull("database.password")?.getString()
+    ?: throw IllegalArgumentException("Database password is missing")
 
     val hikariConfig = HikariConfig().apply {
         jdbcUrl = dbUrl
@@ -34,7 +37,9 @@ fun Application.initDatabase(
 
     val dataSource = HikariDataSource(hikariConfig)
     Database.connect(dataSource)
+
     transaction {
         SchemaUtils.create(UserTable, BikesTable)
     }
 }
+
