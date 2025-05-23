@@ -6,7 +6,7 @@ import com.google.firebase.FirebaseOptions
 import java.io.FileInputStream
 
 fun initFirerBaseAdmin() {
-    val serviceAccount = FileInputStream("src/main/resources/assets/rideon-india-firebase-adminsdk.json")
+    val serviceAccount = FileInputStream("src/main/resources/rideon-india-firebase-adminsdk.json")
 
     val options = FirebaseOptions.builder()
         .setCredentials(GoogleCredentials.fromStream(serviceAccount))
