@@ -44,3 +44,18 @@ dependencies {
     implementation("com.zaxxer:HikariCP:5.1.0")
 
 }
+tasks.register<Jar>("fatJar") {
+    group = "build"
+    archiveBaseName.set("rideon-app")
+    archiveClassifier.set("")
+    archiveVersion.set("")
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes["Main-Class"] = "io.ktor.server.netty.EngineMain"
+    }
+    from(sourceSets.main.get().output)
+    dependsOn(configurations.runtimeClasspath)
+    from({
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+    })
+}
