@@ -1,14 +1,12 @@
-# Use OpenJDK base image
+# Stage 1: Build the fatJar
+FROM gradle:8.4-jdk17 AS build
+COPY --chown=gradle:gradle . /home/app
+WORKDIR /home/app
+RUN gradle fatJar
+
+# Stage 2: Run the fatJar
 FROM openjdk:17-jdk-slim
-
-# Set working directory
 WORKDIR /app
-
-# Copy the fat JAR file into the image (correct file name!)
-COPY build/libs/rideon-app.jar app.jar
-
-# Expose port
+COPY --from=build /home/app/build/libs/*.jar app.jar
 EXPOSE 8080
-
-# Command to run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
