@@ -24,14 +24,9 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-    val portStr = environment.config.propertyOrNull("ktor.deployment.port")?.getString()
-    val port = portStr?.toIntOrNull() ?: 8080
-    log.info("Starting on port $port")
-
-    val dotenv = io.github.cdimascio.dotenv.dotenv()
-    val dbUrl = dotenv["DB_URL"] ?: error("Missing DB_URL")
-    val dbUser = dotenv["DB_USER"] ?: error("Missing DB_USER")
-    val dbPassword = dotenv["DB_PASSWORD"] ?: error("Missing DB_PASSWORD")
+    val dbUrl = System.getenv("DB_URL") ?: error("Missing DB_URL")
+    val dbUser = System.getenv("DB_USER") ?: error("Missing DB_USER")
+    val dbPassword = System.getenv("DB_PASSWORD") ?: error("Missing DB_PASSWORD")
 
     initDatabase(
         url = dbUrl,
