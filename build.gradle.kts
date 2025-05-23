@@ -1,16 +1,14 @@
-
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ktor)
     kotlin("plugin.serialization") version "2.1.10"
-
 }
 
 group = "com.bike"
 version = "0.0.1"
 
 application {
-    mainClass = "io.ktor.server.netty.EngineMain"
+    mainClass.set("io.ktor.server.netty.EngineMain")
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
@@ -40,16 +38,16 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.7")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
     implementation("org.postgresql:postgresql:42.7.2")
-
     implementation("com.zaxxer:HikariCP:5.1.0")
-
 }
+
 tasks.register<Jar>("fatJar") {
     group = "build"
     archiveBaseName.set("rideon-app")
     archiveClassifier.set("")
     archiveVersion.set("")
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
     manifest {
         attributes["Main-Class"] = "io.ktor.server.netty.EngineMain"
     }
