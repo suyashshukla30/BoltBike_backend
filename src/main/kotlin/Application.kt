@@ -16,10 +16,10 @@ fun main(args: Array<String>) {
     io.github.cdimascio.dotenv.dotenv {
         systemProperties = true
     }
-    val port = System.getenv("PORT")?.toIntOrNull() ?: 8080
-    embeddedServer(Netty, port = port, host = "0.0.0.0") {
-        module()
-    }.start(wait = true)
+//    val port = System.getenv("PORT")?.toIntOrNull() ?: 8080
+//    embeddedServer(Netty, port = port, host = "0.0.0.0") {
+//        module()
+//    }.start(wait = true)
     EngineMain.main(args)
 }
 
