@@ -12,6 +12,10 @@ fun Application.configureHTTP() {
         allowMethod(HttpMethod.Patch)
         allowHeader(HttpHeaders.Authorization)
         allowHeader("MyCustomHeader")
-        anyHost() // @TODO: Don't do this in production if possible. Try to limit it.
+        // @TODO: Don't do this in production if possible. Try to limit it.
+        anyHost() // DANGER: This allows requests from *any* origin (domain).
+        // In production, you should replace this with allowHost()
+        // and specify only the exact domains of your frontend applications.
+        // Example: allowHost("www.myfrontend.com")
     }
 }

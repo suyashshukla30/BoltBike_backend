@@ -15,7 +15,6 @@ fun Application.initDatabase(
     user: String? = null,
     password: String? = null
 ) {
-    // Only try to load from config if *all* args are null
     val dbUrl = url ?: environment.config.propertyOrNull("database.url")?.getString()
     ?: throw IllegalArgumentException("Database url is missing")
     val dbDriver = driver ?: environment.config.propertyOrNull("database.driver")?.getString()

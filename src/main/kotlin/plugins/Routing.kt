@@ -14,5 +14,10 @@ fun Application.configureRouting() {
     routing {
         userRoutes()
         bikeRoutes()
+        //------A simple health Check------//
+         get("/") {
+             call.respondText("OK")
+         }
+        //------XXX------//
     }
 }
